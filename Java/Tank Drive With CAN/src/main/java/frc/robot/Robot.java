@@ -8,6 +8,7 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.Joystick;
+import edu.wpi.first.wpilibj.SpeedControllerGroup;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj.drive.DifferentialDrive;
 
@@ -19,9 +20,15 @@ public class Robot extends TimedRobot {
   private Joystick m_leftStick;
   private Joystick m_rightStick;
   private static final int leftDeviceID = 1; 
+  private static final int leftDeviceID2 = 3; 
   private static final int rightDeviceID = 2;
+  private static final int rightDeviceID2 = 4;
   private CANSparkMax m_leftMotor;
+  private CANSparkMax m_leftMotor2;
   private CANSparkMax m_rightMotor;
+  private CANSparkMax m_rightMotor2;
+  SpeedControllerGroup m_left;
+  SpeedControllerGroup m_right;
 
   @Override
   public void robotInit() {
@@ -38,10 +45,15 @@ public class Robot extends TimedRobot {
    * The example below initializes four brushless motors with CAN IDs 1 and 2. Change
    * these parameters to match your setup
    */
-    m_leftMotor = new CANSparkMax(leftDeviceID, MotorType.kBrushless);
-    m_rightMotor = new CANSparkMax(rightDeviceID, MotorType.kBrushless);
+  m_leftMotor = new CANSparkMax(leftDeviceID, MotorType.kBrushless);
+  m_leftMotor2 = new CANSparkMax(leftDeviceID2, MotorType.kBrushless);
+  m_rightMotor = new CANSparkMax(rightDeviceID, MotorType.kBrushless);
+  m_rightMotor2 = new CANSparkMax(rightDeviceID2, MotorType.kBrushless);
 
-    m_myRobot = new DifferentialDrive(m_leftMotor, m_rightMotor);
+  m_left = new SpeedControllerGroup(m_leftMotor, m_leftMotor2);
+  m_right = new SpeedControllerGroup(m_rightMotor, m_rightMotor2);
+
+    m_myRobot = new DifferentialDrive(m_left, m_right);
 
     m_leftStick = new Joystick(0);
     m_rightStick = new Joystick(1);
